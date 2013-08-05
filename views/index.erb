@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Docked</title>
+
+    <style>
+      html, body {
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+      }
+
+      main {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        right: 0;
+        height: 50%;
+        margin-top: -125px;
+        text-align: center;
+        font-size: 200%;
+      }
+
+      textarea {
+        display: block;
+        height: 200px;
+        width: 50%;
+        margin: auto;
+      }
+    </style>
+  </head>
+
+  <body>
+    <main>
+      <p>All your docs are belong to me.</p>
+      <form action="/" method="POST">
+        <textarea name="content" placeholder="Enter literally anything in here"></textarea>
+        <input type="submit" />
+      </form>
+    </main>
+  </body>
+</html>
