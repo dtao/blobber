@@ -30,8 +30,8 @@
       makeRequest('GET', '/' + id, {}, callback);
     },
 
-    save: function(content, callback) {
-      makeRequest('POST', '/', { content: content }, callback);
+    save: function(data, callback) {
+      makeRequest('POST', '/', data, callback);
     },
 
     // config var(s?)
