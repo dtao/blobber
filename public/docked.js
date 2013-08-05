@@ -1,47 +1,38 @@
 (function(window, document) {
 
   var BASE_URL = 'http://docked.herokuapp.com';
-  var callbackId = 1;
 
-  function createCallback(callback, script) {
-    var callbackName = 'docked_callback_' + callbackId++;
-
-    // Odds of this are miniscule, but might as well play it safe.
-    while (callbackName in window) {
-      callbackName = 'docked_callback_' + callbackId++;
+  function getParamsFromData(data) {
+    var params = [];
+    for (var key in data) {
+      params.push(encodeURIComponent(key) + '=' + encodeURIComponent(data[key]));
     }
+    return params.join('&');
+  }
 
-    window[callbackName] = function() {
-      try {
-        callback.apply(this, arguments);
+  function makeRequest(method, route, data, callback) {
+    var xhr = new XMLHttpRequest();
 
-      } finally {
-        document.head.removeChild(script);
-        delete window[callbackName];
+    xhr.open(method, BASE_URL + route);
+
+    var params = getParamsFromData(data);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.setRequestHeader('Content-Length', params.length);
+
+    xhr.addEventListener('progress', function() {
+      if (xhr.readyState === 4) {
+        callback(xhr.responseText);
       }
-    };
-
-    return callbackName;
+    });
   }
 
   window.Docked = {
     open: function(id, callback) {
-      var script = document.createElement('script');
-      script.src = BASE_URL + '/' + id + '?callback=' + createCallback(callback, script);
-      document.head.appendChild(script);
+      makeRequest('GET', '/' + id, {}, callback);
     },
 
-    save: function(content) {
-      var form = document.createElement('form');
-      form.style.display = 'none';
-      document.body.appendChild(form);
-
-      var textarea = document.createElement('textarea');
-      textarea.setAttribute('name', 'content');
-      textarea.value = content;
-      form.appendChild(textarea);
-
-      form.submit();
+    save: function(content, callback) {
+      makeRequest('POST', '/', { content: content }, callback);
     }
   };
 
