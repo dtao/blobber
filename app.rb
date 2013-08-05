@@ -8,7 +8,7 @@ class Doc
 end
 
 configure do
-  puts "Environment: #{ENV['RACK_ENV']}"
+  enable :cross_origin
   Mongoid.load!(File.join(File.dirname(__FILE__), 'config', 'mongoid.yml'))
 end
 
