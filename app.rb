@@ -5,6 +5,7 @@ require 'sinatra/cross_origin'
 
 class Doc
   include Mongoid::Document
+  field :title,   :type => String
   field :content, :type => String
 end
 
@@ -28,12 +29,11 @@ end
 get '/*' do |id|
   content_type :text
   doc = Doc.find(id)
-  serve_json(:id => id, :content => doc.content)
+  serve_json(:id => id, :title => doc.title, :content => doc.content)
 end
 
 post '/' do
   content_type :json
-  doc = Doc.create(:content => params['content'])
-  puts "Saved doc: #{doc.id}"
+  doc = Doc.create(:title => params['title'], :content => params['content'])
   serve_json(:id => doc.id)
 end
