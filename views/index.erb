@@ -16,17 +16,28 @@
         top: 50%;
         left: 0;
         right: 0;
-        height: 50%;
-        margin-top: -125px;
+        height: 500px;
+        margin-top: -250px;
         text-align: center;
         font-size: 200%;
       }
 
-      textarea {
+      input, textarea {
+        padding: 10px;
+      }
+
+      input[type="text"], textarea {
         display: block;
-        height: 200px;
         width: 50%;
-        margin: auto;
+        margin: 0 auto 10px;
+      }
+
+      textarea {
+        height: 200px;
+      }
+
+      input[type="submit"] {
+        min-width: 120px;
       }
     </style>
   </head>
@@ -34,8 +45,10 @@
   <body>
     <main>
       <p>All your docs are belong to me.</p>
-      <form action="/" method="POST">
-        <textarea name="content" placeholder="Enter literally anything in here"></textarea>
+      <form action="/<%= @id %>" method="POST">
+        <input type="hidden" name="token" value="<%= @token %>" />
+        <input type="text" name="title" placeholder="Enter a title (optional)" value="<%= @title %>" />
+        <textarea name="content" placeholder="Enter literally anything in here"><%= @content %></textarea>
         <input type="submit" value="Store" />
       </form>
     </main>
