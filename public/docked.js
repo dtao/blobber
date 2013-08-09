@@ -8,10 +8,14 @@
     return params.join('&');
   }
 
+  function getBaseUrl() {
+    return Docked.PROTOCOL + '://' + Docked.HOSTNAME;
+  }
+
   function makeRequest(method, route, data, callback) {
     var xhr = new XMLHttpRequest();
 
-    xhr.open(method, Docked.BASE_URL + route);
+    xhr.open(method, getBaseUrl() + route);
 
     var params = getParamsFromData(data);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -30,13 +34,18 @@
       makeRequest('GET', '/' + id, {}, callback);
     },
 
-    save: function(data, callback) {
-      makeRequest('POST', '/', data, callback);
+    update: function(id, data, callback) {
+      makeRequest('POST', '/' + id, data, callback);
     },
 
-    // config var(s?)
-    BASE_URL: 'http://docked.herokuapp.com'
+    save: function(data, callback) {
+      makeRequest('POST', '/', data, callback);
+    }
   };
+
+  // config vars
+  Docked.PROTOCOL = 'https';
+  Docked.HOSTNAME = 'docked.herokuapp.com';
 
   window.Docked = Docked;
 
